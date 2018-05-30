@@ -1,0 +1,11 @@
+/Users/EvanCoulson/github/Chip8/Chip8/bin/DesktopGL/Any CPU/Debug/MonoGame.Framework.dll.config
+/Users/EvanCoulson/github/Chip8/Chip8/bin/DesktopGL/Any CPU/Debug/libSDL2-2.0.0.dylib
+/Users/EvanCoulson/github/Chip8/Chip8/bin/DesktopGL/Any CPU/Debug/libopenal.1.dylib
+/Users/EvanCoulson/github/Chip8/Chip8/bin/DesktopGL/Any CPU/Debug/MonoGame.Framework.dll
+/Users/EvanCoulson/github/Chip8/Chip8/bin/DesktopGL/Any CPU/Debug/MonoGame.Framework.xml
+/Users/EvanCoulson/github/Chip8/Chip8/obj/Any CPU/Debug/Chip8.Desktop.csprojResolveAssemblyReference.cache
+/Users/EvanCoulson/github/Chip8/Chip8/obj/Any CPU/Debug/Chip8.Desktop.csproj.CoreCompileInputs.cache
+/Users/EvanCoulson/github/Chip8/Chip8/obj/Any CPU/Debug/Chip8.Desktop.exe
+/Users/EvanCoulson/github/Chip8/Chip8/obj/Any CPU/Debug/Chip8.Desktop.pdb
+/Users/EvanCoulson/github/Chip8/Chip8/bin/DesktopGL/Any CPU/Debug/Chip8.Desktop.exe
+/Users/EvanCoulson/github/Chip8/Chip8/bin/DesktopGL/Any CPU/Debug/Chip8.Desktop.pdb
