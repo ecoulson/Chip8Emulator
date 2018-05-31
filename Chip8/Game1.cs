@@ -13,6 +13,8 @@ namespace Chip8.Desktop
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Chip8Emulator emulator;
+        Texture2D whitePixel;
+        Texture2D blackPixel;
         
         public Game1()
         {
@@ -33,9 +35,27 @@ namespace Chip8.Desktop
             graphics.PreferredBackBufferHeight = Chip8Display.SCREEN_HEIGHT * Chip8Display.SCREEN_SCALE;
             graphics.ApplyChanges();
 
-            Chip8Rom rom = new Chip8Rom("MAZE");
+            createTextures();
+
+            Chip8Rom rom = new Chip8Rom("TETRIS");
             this.emulator = new Chip8Emulator(rom);
+
             base.Initialize();
+        }
+
+        private void createTextures() {
+            this.whitePixel = createPixelTexture(Color.White);
+            this.blackPixel = createPixelTexture(Color.Black);
+        }
+
+         private Texture2D createPixelTexture(Color color) {
+            Texture2D texture = new Texture2D(graphics.GraphicsDevice, Chip8Display.SCREEN_SCALE, Chip8Display.SCREEN_SCALE);
+            Color[] colorData = new Color[Chip8Display.SCREEN_SCALE * Chip8Display.SCREEN_SCALE];
+            for (int i = 0; i < colorData.Length; i++) {
+                colorData[i] = color;
+            }
+            texture.SetData(colorData);
+            return texture;
         }
 
         /// <summary>
@@ -46,7 +66,6 @@ namespace Chip8.Desktop
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            emulator.cpu.display.initializeGraphics(graphics, spriteBatch);
             // TODO: use this.Content to load your game content here
         }
 
@@ -72,11 +91,7 @@ namespace Chip8.Desktop
 
             KeyboardState state = Keyboard.GetState();
             emulator.handleKeyboardState(state);
-
-            emulator.cpu.delayTimer.decrement();
-            emulator.cpu.soundTimer.decrement();
             emulator.cycle();
-
 
             // TODO: Add your update logic here
             base.Update(gameTime);
@@ -91,7 +106,18 @@ namespace Chip8.Desktop
             base.Draw(gameTime);
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            // TODO: Add your drawing code here
+            Chip8Display display = emulator.getDisplay();
+            bool[] currentGFX = display.getGFX();
+            for (int i = 0; i < currentGFX.Length; i++) {
+                int x = i % Chip8Display.SCREEN_WIDTH;
+                int y = i / Chip8Display.SCREEN_WIDTH;
+                Vector2 pos = new Vector2(x * Chip8Display.SCREEN_SCALE, y * Chip8Display.SCREEN_SCALE);
+                if (currentGFX[i]) {
+                    spriteBatch.Draw(whitePixel, pos, Color.White);
+                } else {
+                    spriteBatch.Draw(blackPixel, pos, Color.Black);
+                }
+            }
             spriteBatch.End();
         }
     }

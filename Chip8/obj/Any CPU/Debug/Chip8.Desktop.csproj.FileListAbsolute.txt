@@ -9,3 +9,14 @@
 /Users/EvanCoulson/github/Chip8/Chip8/obj/Any CPU/Debug/Chip8.Desktop.pdb
 /Users/EvanCoulson/github/Chip8/Chip8/bin/DesktopGL/Any CPU/Debug/Chip8.Desktop.exe
 /Users/EvanCoulson/github/Chip8/Chip8/bin/DesktopGL/Any CPU/Debug/Chip8.Desktop.pdb
+/Users/evancoulson/github/Chip8Emulator/Chip8/obj/Any CPU/Debug/Chip8.Desktop.csprojResolveAssemblyReference.cache
+/Users/evancoulson/github/Chip8Emulator/Chip8/obj/Any CPU/Debug/Chip8.Desktop.csproj.CoreCompileInputs.cache
+/Users/evancoulson/github/Chip8Emulator/Chip8/obj/Any CPU/Debug/Chip8.Desktop.exe
+/Users/evancoulson/github/Chip8Emulator/Chip8/obj/Any CPU/Debug/Chip8.Desktop.pdb
+/Users/evancoulson/github/Chip8Emulator/Chip8/bin/DesktopGL/Any CPU/Debug/libSDL2-2.0.0.dylib
+/Users/evancoulson/github/Chip8Emulator/Chip8/bin/DesktopGL/Any CPU/Debug/libopenal.1.dylib
+/Users/evancoulson/github/Chip8Emulator/Chip8/bin/DesktopGL/Any CPU/Debug/MonoGame.Framework.dll.config
+/Users/evancoulson/github/Chip8Emulator/Chip8/bin/DesktopGL/Any CPU/Debug/Chip8.Desktop.exe
+/Users/evancoulson/github/Chip8Emulator/Chip8/bin/DesktopGL/Any CPU/Debug/Chip8.Desktop.pdb
+/Users/evancoulson/github/Chip8Emulator/Chip8/bin/DesktopGL/Any CPU/Debug/MonoGame.Framework.dll
+/Users/evancoulson/github/Chip8Emulator/Chip8/bin/DesktopGL/Any CPU/Debug/MonoGame.Framework.xml

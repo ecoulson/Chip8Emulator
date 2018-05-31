@@ -57,6 +57,7 @@
     <Compile Include="Emulator\Chip8Timer.cs" />
     <Compile Include="Emulator\Chip8Memory.cs" />
     <Compile Include="Emulator\Chip8InstructionPointer.cs" />
+    <Compile Include="Emulator\Chip8StackPointer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

@@ -14,30 +14,13 @@ namespace Chip8.Desktop.Emulator
 
         private bool[] gfx;
 
-        public Texture2D whitePixel;
-        public Texture2D blackPixel;
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        private Chip8CPU CPU;
+        private Chip8Memory memory;
 
-        public Chip8Display() {
+        public Chip8Display(Chip8Emulator emulator) {
             this.gfx = new bool[SCREEN_SIZE];
-        }
-
-        public void initializeGraphics(GraphicsDeviceManager graphics, SpriteBatch spriteBatch) {
-            this.graphics = graphics;
-            this.spriteBatch = spriteBatch;
-            this.whitePixel = createPixelTexture(Color.White);
-            this.blackPixel = createPixelTexture(Color.Black);
-        }
-
-        private Texture2D createPixelTexture(Color color) {
-            Texture2D texture = new Texture2D(graphics.GraphicsDevice, SCREEN_SCALE, SCREEN_SCALE);
-            Color[] colorData = new Color[SCREEN_SCALE * SCREEN_SCALE];
-            for (int i = 0; i < colorData.Length; i++) {
-                colorData[i] = color;
-            }
-            texture.SetData(colorData);
-            return texture;
+            this.CPU = emulator.getCPU();
+            this.memory = emulator.getMemory();
         }
 
         public void clear() {
@@ -46,32 +29,16 @@ namespace Chip8.Desktop.Emulator
             }
         }
 
-        public void draw(Chip8Opcode opcode) {
-            cpu.setRegister(0x0F, 0);
-            spriteBatch.Begin();
-            for (int dY = 0; dY < opcode.N; dY++) {
-                ushort location = (ushort)(cpu.getRegisterI() + dY);
-                byte pixel = cpu.read(location);
-                for (int dX = 0; dX < 8; dX++) {
-                    int offset = ((opcode.y + dY) * SCREEN_WIDTH) + opcode.x + dX;
-                    if ((pixel & (0x80 >> dX)) != 0) {
-                        if (gfx[offset]) {
-                            cpu.setRegister(0x0F, 1);
-                        }
-                        gfx[offset] ^= true;
-                        drawRect(opcode.x + dX, opcode.y + dY, gfx[offset]);
-                    }
-                }
-            }
-            spriteBatch.End();
+        public void draw(int offset, bool isWhite) {
+            gfx[offset] = isWhite;
         }
 
-        private void drawRect(int x, int y, bool isWhite) {
-            if (isWhite) {
-                spriteBatch.Draw(whitePixel, new Vector2(x, y), Color.White);
-            } else {
-                spriteBatch.Draw(blackPixel, new Vector2(x, y), Color.Black);
-            }
+        public bool isWhite(int offset) {
+            return gfx[offset];
+        }
+
+        public bool[] getGFX() {
+            return gfx;
         }
     }
 }

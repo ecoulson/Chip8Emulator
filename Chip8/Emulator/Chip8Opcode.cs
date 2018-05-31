@@ -11,11 +11,11 @@ namespace Chip8.Desktop.Emulator
         public byte N;
         public ushort instruction;
 
-        public Chip8Opcode(byte fistByte, byte lastByte)
+        public Chip8Opcode(byte firstByte, byte lastByte)
         {
-            this.instruction = (byte)((fistByte << 8) + lastByte);
-            this.code = (byte)(fistByte >> 4);
-            this.x = (byte)(fistByte & 0x0F);
+            this.instruction = (byte)((firstByte << 8) + lastByte);
+            this.code = (byte)(firstByte >> 4);
+            this.x = (byte)(firstByte & 0x0F);
             this.y = (byte)(lastByte >> 4);
             this.NNN = (ushort)((x << 8) + lastByte);
             this.NN = (byte)lastByte;
