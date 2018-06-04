@@ -1,16 +1,16 @@
 ﻿<Properties StartupConfiguration="{905B6B3B-33B1-49FB-B691-AE30F88CB4F5}|Default">
   <MonoDevelop.Ide.ItemProperties.Chip8.Desktop PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Emulator/Chip8CPU.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Emulator/Chip8Memory.cs">
     <Files>
       <File FileName="Game1.cs" Line="40" Column="48" />
       <File FileName="Emulator/Chip8Emulator.cs" Line="66" Column="22" />
-      <File FileName="Emulator/Chip8Display.cs" Line="32" Column="25" />
-      <File FileName="Emulator/Chip8CPU.cs" Line="18" Column="38" />
-      <File FileName="Emulator/Chip8InstructionPointer.cs" Line="20" Column="32" />
+      <File FileName="Emulator/Chip8CPU.cs" Line="20" Column="39" />
+      <File FileName="Emulator/Chip8InstructionPointer.cs" Line="8" Column="9" />
       <File FileName="Emulator/Chip8Opcode.cs" Line="21" Column="32" />
+      <File FileName="Emulator/Chip8Memory.cs" Line="7" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Any CPU" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
