@@ -3,16 +3,8 @@ namespace Chip8.Desktop.Emulator
 {
     public class Chip8InstructionPointer
     {
-        private const ushort START_ADDRESS = 0x200;
-        private const int BYTES_PER_OPCODE = 2;
-
-        private Chip8Memory memory;
-        private ushort offset;
-
-        public Chip8InstructionPointer(Chip8Memory memory) {
-            this.offset = START_ADDRESS;
-            this.memory = memory;
-        }
+        public const ushort START_ADDRESS = 0x200;
+        public static ushort offset;
 
         public Chip8Opcode readOpCode() {
             byte firstByte = memory.read(offset++);

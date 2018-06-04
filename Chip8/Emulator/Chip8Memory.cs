@@ -3,12 +3,8 @@ namespace Chip8.Desktop.Emulator
 {
     public class Chip8Memory
     {
-        private const int MEMORY_SIZE = 4096;
-        private byte[] memory;
-
-        public Chip8Memory() {
-            this.memory = new byte[MEMORY_SIZE];
-        }
+        public static const int MEMORY_SIZE = 4096;
+        public static byte[] memory;
 
         public void writeBlock(Chip8Fontset fontset) {
             writeBlock(fontset.getFontset(), Chip8Fontset.LOAD_ADDRESS);

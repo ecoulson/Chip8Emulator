@@ -7,7 +7,7 @@
       <File FileName="Emulator/Chip8CPU.cs" Line="20" Column="39" />
       <File FileName="Emulator/Chip8InstructionPointer.cs" Line="8" Column="9" />
       <File FileName="Emulator/Chip8Opcode.cs" Line="21" Column="32" />
-      <File FileName="Emulator/Chip8Memory.cs" Line="7" Column="22" />
+      <File FileName="Emulator/Chip8Memory.cs" Line="9" Column="52" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
