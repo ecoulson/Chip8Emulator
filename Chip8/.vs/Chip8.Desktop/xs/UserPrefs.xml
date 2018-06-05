@@ -1,13 +1,12 @@
 ﻿<Properties StartupConfiguration="{905B6B3B-33B1-49FB-B691-AE30F88CB4F5}|Default">
   <MonoDevelop.Ide.ItemProperties.Chip8.Desktop PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Emulator/Chip8Memory.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Emulator/Chip8Emulator.cs">
     <Files>
-      <File FileName="Game1.cs" Line="40" Column="48" />
-      <File FileName="Emulator/Chip8Emulator.cs" Line="66" Column="22" />
-      <File FileName="Emulator/Chip8CPU.cs" Line="20" Column="39" />
-      <File FileName="Emulator/Chip8InstructionPointer.cs" Line="8" Column="9" />
-      <File FileName="Emulator/Chip8Opcode.cs" Line="21" Column="32" />
-      <File FileName="Emulator/Chip8Memory.cs" Line="9" Column="52" />
+      <File FileName="Emulator/Chip8Emulator.cs" Line="55" Column="6" />
+      <File FileName="Emulator/Chip8CPU.cs" Line="26" Column="32" />
+      <File FileName="Emulator.cs" Line="80" Column="22" />
+      <File FileName="Emulator/Chip8Memory.cs" Line="6" Column="17" />
+      <File FileName="Game1.cs" Line="53" Column="63" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

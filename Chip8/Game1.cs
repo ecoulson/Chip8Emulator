@@ -37,7 +37,7 @@ namespace Chip8.Desktop
 
             createTextures();
 
-            Chip8Rom rom = new Chip8Rom("TETRIS");
+            Chip8Rom rom = new Chip8Rom("PONG");
             this.emulator = new Chip8Emulator(rom);
 
             base.Initialize();
@@ -106,8 +106,8 @@ namespace Chip8.Desktop
             base.Draw(gameTime);
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            Chip8Display display = emulator.getDisplay();
-            bool[] currentGFX = display.getGFX();
+
+            bool[] currentGFX = Chip8Display.gfx;
             for (int i = 0; i < currentGFX.Length; i++) {
                 int x = i % Chip8Display.SCREEN_WIDTH;
                 int y = i / Chip8Display.SCREEN_WIDTH;

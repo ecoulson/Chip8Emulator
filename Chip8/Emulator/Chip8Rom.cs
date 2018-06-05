@@ -5,7 +5,7 @@ namespace Chip8.Desktop.Emulator
 {
     public class Chip8Rom
     {
-        public const int LOAD_ADDRESS = 0x200;
+        private const int LOAD_ADDRESS = 0x200;
         private const string ROM_DIR = @"/Users/evancoulson/Downloads/games/";
 
         private string romName;
@@ -20,8 +20,12 @@ namespace Chip8.Desktop.Emulator
             return this.romName;
         }
 
-        public byte[] getRomBytes() {
+        private byte[] getRomBytes() {
             return this.romData;
+        }
+
+        public void load() {
+            Chip8Memory.writeBlock(getRomBytes(), LOAD_ADDRESS);
         }
     }
 }

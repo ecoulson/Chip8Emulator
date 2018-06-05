@@ -12,178 +12,168 @@ namespace Chip8.Desktop.Emulator
         private ushort I;
 
         private Random random;
-        private Chip8Memory memory;
-        private Chip8InstructionPointer instructionPointer;
-        private Chip8StackPointer stackPointer;
-        private Chip8Display display;
         private Chip8Timer delayTimer;
         private Chip8Timer soundTimer;
         private Chip8Keyboard keyboard;
 
         public Chip8CPU(Chip8Emulator emulator) {
             this.random = new Random();
-            this.memory = emulator.getMemory();
-            this.instructionPointer = emulator.getInstructionPointer();
-            this.stackPointer = emulator.getStackPointer();
             this.delayTimer = emulator.getDelayTimer();
             this.soundTimer = emulator.getSoundTimer();
             this.keyboard = emulator.getKeyboard();
-            this.display = emulator.getDisplay();
 
             this.registers = new byte[REGISTER_COUNT];
             this.I = I_ADDRESS;
         }
 
         public void executeInstruction() {
-            Chip8Opcode opcode = instructionPointer.readOpCode();
-            executeOpcode(opcode);
-        }
-
-        private void executeOpcode(Chip8Opcode opcode) {
-            byte registerX = (byte)getRegister(opcode.x);
-            byte registerY = (byte)getRegister(opcode.y);
+            byte byte1 = Chip8Memory.memory[Chip8InstructionPointer.offset++];
+            byte byte2 = Chip8Memory.memory[Chip8InstructionPointer.offset++];
+            byte registerX = registers[Chip8Opcode.getX(byte1)];
+            byte registerY = registers[Chip8Opcode.getY(byte2)];
             byte value;
-            switch (opcode.code)
+            switch (Chip8Opcode.getCode(byte1))
             {
                 case 0x00:
-                    switch (opcode.NN) {
+                    switch (Chip8Opcode.getNN(byte2)) {
                         case 0xE0:
-                            display.clear();
+                            Chip8Display.clear();
                             break;
                         case 0xEE:
-                            Chip8Opcode returnOpcode = stackPointer.readOpCode();
-                            instructionPointer.setOffset(returnOpcode.instruction);
+                            byte returnByte1 = Chip8Memory.memory[--Chip8StackPointer.offset];
+                            byte returnByte2 = Chip8Memory.memory[--Chip8StackPointer.offset];
+                            Chip8InstructionPointer.offset = (ushort)((returnByte1 << 8) + returnByte2);
                             break;
                         default:
-                            throw new IllegalChip8OpcodeException("Illegal Opcode " + opcode.instruction);
+                            throw new IllegalChip8OpcodeException("Illegal Opcode " + byte1.ToString("X2") + byte2.ToString("X2"));
                     }
                     break;
                 case 0x01:
-                    instructionPointer.setOffset(opcode.NNN);
+                    Chip8InstructionPointer.offset = Chip8Opcode.getNNN(byte1, byte2);
                     break;
                 case 0x02:
-                    stackPointer.storeInstructionPointer(instructionPointer);
-                    instructionPointer.setOffset(opcode.NNN);
+                    Chip8Memory.memory[Chip8StackPointer.offset++] = (byte)(Chip8InstructionPointer.offset & 0x0F);
+                    Chip8Memory.memory[Chip8StackPointer.offset++] = (byte)(Chip8InstructionPointer.offset >> 8);
+                    Chip8InstructionPointer.offset = Chip8Opcode.getNNN(byte1, byte2);
                     break;
                 case 0x03:
-                    if (registerX == opcode.NN) {
-                        instructionPointer.increment();
+                    if (registerX == Chip8Opcode.getNN(byte2)) {
+                        Chip8InstructionPointer.increment();
                     }
                     break;
                 case 0x04:
-                    if (registerX != opcode.NN) {
-                        instructionPointer.increment();
+                    if (registerX != Chip8Opcode.getNN(byte2)) {
+                        Chip8InstructionPointer.increment();
                     }
                     break;
                 case 0x05:
                     if (registerX == registerY) {
-                        instructionPointer.increment();
+                        Chip8InstructionPointer.increment();
                     }
                     break;
                 case 0x06:
-                    setRegister(opcode.x, opcode.NN);
+                    registers[Chip8Opcode.getX(byte1)] = Chip8Opcode.getNN(byte2);
                     break;
                 case 0x07:
-                    value = (byte)(registerX + opcode.NN);
-                    setRegister(opcode.x, value);
+                    value = (byte)(registerX + Chip8Opcode.getNN(byte2));
+                    registers[Chip8Opcode.getX(byte1)] = value;
                     break;
                 case 0x08:
-                    switch (opcode.N)
+                    switch (Chip8Opcode.getN(byte2))
                     {
                         case 0x00:
-                            setRegister(opcode.x, registerY);
+                            registers[Chip8Opcode.getX(byte1)] = registerY;
                             break;
                         case 0x01:
                             value = (byte)(registerX | registerY);
-                            setRegister(opcode.x, value);
+                            registers[Chip8Opcode.getX(byte1)] = value;
                             break;
                         case 0x02:
                             value = (byte)(registerX & registerY);
-                            setRegister(opcode.x, value);
+                            registers[Chip8Opcode.getX(byte1)] = value;
                             break;
                         case 0x03:
                             value = (byte)(registerX ^ registerY);
-                            setRegister(opcode.x, value);
+                            registers[Chip8Opcode.getX(byte1)] = value;
                             break;
                         case 0x04:
                             // handle VF
                             value = (byte)(registerX + registerY);
-                            setRegister(opcode.x, value);
+                            registers[Chip8Opcode.getX(byte1)] = value;
                             break;
                         case 0x05:
                             //handle VF
                             value = (byte)(registerX - registerY);
-                            setRegister(opcode.x, value);
+                            registers[Chip8Opcode.getX(byte1)] = value;
                             break;
                         case 0x06:
                             //handle VF
                             value = (byte)(registerY >> 1);
-                            setRegister(opcode.x, value);
+                            registers[Chip8Opcode.getX(byte1)] = value;
                             break;
                         case 0x07:
                             //handle VF
                             value = (byte)(registerY - registerX);
-                            setRegister(opcode.x, value);
+                            registers[Chip8Opcode.getX(byte1)] = value;
                             break;
                         case 0x0E:
                             //handle VF 
                             value = (byte)(registerY << 1);
-                            setRegister(opcode.y, value);
-                            setRegister(opcode.x, value);
+                            registers[Chip8Opcode.getX(byte1)] = value;
+                            registers[Chip8Opcode.getY(byte2)] = value;
                             break;
                         default:
-                            throw new IllegalChip8OpcodeException("Illegal Opcode " + opcode.instruction);
+                            throw new IllegalChip8OpcodeException("Illegal Opcode " + byte1.ToString("X2") + byte2.ToString("X2"));
                     }
                     break;
                 case 0x09:
                     if (registerX != registerY) {
-                        instructionPointer.increment();
+                        Chip8InstructionPointer.increment();
                     }
                     break;
                 case 0x0A:
-                    I = opcode.NNN;
+                    I = Chip8Opcode.getNNN(byte1, byte2);
                     break;
                 case 0x0B:
-                    byte register = getRegister(0);
-                    ushort offset = (ushort)(register + opcode.NNN);
-                    instructionPointer.setOffset(offset);
+                    ushort offset = (ushort)(registers[0] + Chip8Opcode.getNNN(byte1, byte2));
+                    Chip8InstructionPointer.offset = offset;
                     break;
                 case 0x0C:
-                    value = (byte)(random.Next(256) & opcode.NN);
-                    setRegister(opcode.x, value);
+                    value = (byte)(random.Next(256) & Chip8Opcode.getNN(byte2));
+                    registers[Chip8Opcode.getX(byte1)] = value;
                     break;
                 case 0x0D:
-                    int x = getRegister(opcode.x);
-                    int y = getRegister(opcode.y);
-                    int n = opcode.N;
+                    int x = registerX;
+                    int y = registerY;
+                    int n = Chip8Opcode.getN(byte2);
                     draw(x, y, n);
                     break;
                 case 0x0E:
-                    switch (opcode.NN)
+                    switch (Chip8Opcode.getNN(byte2))
                     {
                         case 0x9E:
-                            if (keyboard.keyState[opcode.x]) {
-                                instructionPointer.increment();
+                            if (keyboard.keyState[Chip8Opcode.getX(byte1)]) {
+                                Chip8InstructionPointer.increment();
                             }
                             break;
                         case 0xA1:
-                            if (!keyboard.keyState[opcode.x]) {
-                                instructionPointer.increment();
+                            if (!keyboard.keyState[Chip8Opcode.getX(byte1)]) {
+                                Chip8InstructionPointer.increment();
                             }
                             break;
                         default:
-                            throw new IllegalChip8OpcodeException("Illegal Opcode " + opcode.instruction);
+                            throw new IllegalChip8OpcodeException("Illegal Opcode " + byte1.ToString("X2") + byte2.ToString("X2"));
                     }
                     break;
                 case 0x0F:
-                    switch (opcode.NN)
+                    switch (Chip8Opcode.getNN(byte2))
                     {
                         case 0x07:
-                            setRegister(opcode.x, (byte)delayTimer.get());
+                            registers[Chip8Opcode.getX(byte1)] = (byte)delayTimer.get();
                             break;
                         case 0x0A:
                             // TODO: implment readkey
-                            setRegister(opcode.x, 0); // should be read key
+                            registers[Chip8Opcode.getX(byte1)] = 0; // should be read key
                             break;
                         case 0x15:
                             delayTimer.set(registerX);
@@ -198,50 +188,42 @@ namespace Chip8.Desktop.Emulator
                             I = (byte)(Chip8Fontset.FONT_HEIGHT * registerX);
                             break;
                         case 0x33:
-                            memory.write((byte)(registerX / 100), I);
-                            memory.write((byte)((registerX % 100) / 10), I + 1);
-                            memory.write((byte)(registerX % 10), I + 2);
+                            Chip8Memory.memory[I] = (byte)(registerX / 100);
+                            Chip8Memory.memory[I + 1] = (byte)((registerX % 100) / 10);
+                            Chip8Memory.memory[I + 2] = (byte)(registerX % 10);
                             break;
                         case 0x55:
-                            for (int i = 0; i <= opcode.x; i++) {
-                                memory.write(getRegister(i), I++);
+                            for (int i = 0; i <= Chip8Opcode.getX(byte1); i++) {
+                                Chip8Memory.memory[I++] = registers[i];
                             }
                             break;
                         case 0x65:
-                            for (int i = 0; i <= opcode.x; i++) {
-                                setRegister(i, memory.read(i++));
+                            for (int i = 0; i <= Chip8Opcode.getX(byte1); i++) {
+                                registers[i] = Chip8Memory.memory[I++];
                             }
                             break;
                         default:
-                            throw new IllegalChip8OpcodeException("Illegal Opcode " + opcode.NN.ToString("X2"));
+                            throw new IllegalChip8OpcodeException("Illegal Opcode " + byte1.ToString("X2") + byte2.ToString("X2"));
                     }
                     break;
                 default:
-                    throw new IllegalChip8OpcodeException("Illegal Opcode " + opcode.instruction);
+                    throw new IllegalChip8OpcodeException("Illegal Opcode " + byte1.ToString("X2") + byte2.ToString("X2"));
             }
         }
 
-        private byte getRegister(int i) {
-            return registers[i];
-        }
-
-        private void setRegister(int i, byte data) {
-            registers[i] = data;
-        }
-
         public void draw(int x, int y, int n) {
-            setRegister(0x0F, 0);
+            registers[0x0F] = 0;
             for (int dY = 0; dY < n; dY++) {
                 ushort location = (ushort)(I + dY);
-                byte pixel = memory.read(location);
+                byte pixel = Chip8Memory.memory[location];
                 for (int dX = 0; dX < 8; dX++) {
                     int offset = ((y + dY) * Chip8Display.SCREEN_WIDTH) + x + dX;
                     if ((pixel & (0x80 >> dX)) != 0) {
-                        if (display.isWhite(offset)) {
-                            setRegister(0x0F, 1);
+                        if (Chip8Display.isWhite(offset)) {
+                            registers[0x0F] = 1;
                         }
-                        bool isWhite = display.isWhite(offset) ^ true;
-                        display.draw(offset, isWhite);
+                        bool isWhite = Chip8Display.isWhite(offset) ^ true;
+                        Chip8Display.draw(offset, isWhite);
                     }
                 }
             }

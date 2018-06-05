@@ -25,12 +25,12 @@ namespace Chip8.Desktop.Emulator
           0xF0, 0x80, 0xF0, 0x80, 0x80  // F
         };
 
-        public Chip8Fontset() {
-            
+        private static byte[] getFontset() {
+            return chip8Fontset;
         }
 
-        public byte[] getFontset() {
-            return chip8Fontset;
+        public static void loadFontset() {
+            Chip8Memory.writeBlock(getFontset(), LOAD_ADDRESS);
         }
     }
 }
